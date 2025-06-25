@@ -1,0 +1,54 @@
+XSLT Template Editor - Installation Guide
+==========================================
+
+QUICK START (Easiest Method):
+1. Double-click "index.html" to open in your web browser
+2. That's it! The application is ready to use.
+
+ALTERNATIVE METHODS:
+
+Method 1: Using Python (if installed)
+1. Open Command Prompt or Terminal
+2. Navigate to this folder
+3. Run: python -m http.server 8000
+4. Open browser and go to: http://localhost:8000
+
+Method 2: Using Node.js (if installed)
+1. Open Command Prompt or Terminal
+2. Navigate to this folder
+3. Run: npx serve .
+4. Open the URL shown in the terminal
+
+WHAT'S INCLUDED:
+- index.html - Main application (double-click to run)
+- logo.png - 1C International logo and favicon
+- README.md - Detailed documentation
+- sample templates/ - Example XSLT templates for testing
+- sample xml/ - Example XML data files for preview
+
+SYSTEM REQUIREMENTS:
+- Modern web browser (Chrome, Firefox, Safari, Edge)
+- No internet connection required
+- No additional software installation needed
+
+GETTING STARTED:
+1. Open the application
+2. Click "📁 Choose File" to load your XSLT template
+3. Click "📄 Choose XML File" to load XML data for preview
+4. Edit code directly in the syntax-highlighted editor
+5. Replace images and adjust dimensions as needed
+6. See live preview updates as you make changes
+7. Download your modified template
+
+NEW FEATURES:
+- Live code editing with syntax highlighting
+- XML file upload for realistic preview
+- Resizable panels for better workspace
+- Bilingual interface (English/Turkish)
+- Real-time preview updates
+
+For detailed instructions, see README.md
+
+Support: Contact your system administrator
+Version: 2.0
+© 2025 1C International 
