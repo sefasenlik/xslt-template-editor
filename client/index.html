@@ -321,30 +321,51 @@
     }
 
     .btn {
-      background: var(--primary-yellow);
+      background: linear-gradient(145deg, var(--primary-yellow), var(--dark-yellow));
       color: var(--text-dark);
-      border: none;
+      border: 1px solid var(--dark-yellow);
+      border-top-color: #fff5b3;
+      border-left-color: #fff5b3;
+      border-right-color: #cc9900;
+      border-bottom-color: #cc9900;
       padding: 0.5rem 1rem;
       border-radius: var(--border-radius);
       font-weight: 500;
       cursor: pointer;
-      transition: all 0.2s ease;
+      transition: all 0.15s ease;
       font-size: 13px;
       display: inline-flex;
       align-items: center;
       justify-content: center;
       gap: 0.5rem;
       text-decoration: none;
+      box-shadow: 
+        0 3px 6px rgba(0, 0, 0, 0.16),
+        inset 0 1px 0 rgba(255, 255, 255, 0.3),
+        inset 0 -1px 0 rgba(0, 0, 0, 0.1);
+      text-shadow: 0 1px 0 rgba(255, 255, 255, 0.4);
+      position: relative;
     }
 
     .btn:hover {
-      background: var(--dark-yellow);
-      transform: translateY(-1px);
-      box-shadow: var(--shadow-md);
+      background: linear-gradient(145deg, #fff3cd, var(--primary-yellow));
+      transform: translateY(-2px);
+      box-shadow: 
+        0 6px 12px rgba(0, 0, 0, 0.2),
+        inset 0 1px 0 rgba(255, 255, 255, 0.4),
+        inset 0 -1px 0 rgba(0, 0, 0, 0.15);
     }
 
     .btn:active {
-      transform: translateY(0);
+      transform: translateY(-1px);
+      box-shadow: 
+        0 2px 4px rgba(0, 0, 0, 0.2),
+        inset 0 1px 0 rgba(255, 255, 255, 0.2),
+        inset 0 -1px 0 rgba(0, 0, 0, 0.2);
+      border-top-color: #cc9900;
+      border-left-color: #cc9900;
+      border-right-color: #fff5b3;
+      border-bottom-color: #fff5b3;
     }
 
     .btn:disabled {
@@ -354,12 +375,25 @@
     }
 
     .btn.download-btn {
-      background: var(--success-green);
+      background: linear-gradient(145deg, var(--success-green), #1e7e34);
       color: var(--text-white);
+      border-color: #1e7e34;
+      border-top-color: #4caf50;
+      border-left-color: #4caf50;
+      border-right-color: #1b5e20;
+      border-bottom-color: #1b5e20;
+      text-shadow: 0 1px 0 rgba(0, 0, 0, 0.3);
     }
 
     .btn.download-btn:hover {
-      background: #218838;
+      background: linear-gradient(145deg, #4caf50, var(--success-green));
+    }
+
+    .btn.download-btn:active {
+      border-top-color: #1b5e20;
+      border-left-color: #1b5e20;
+      border-right-color: #4caf50;
+      border-bottom-color: #4caf50;
     }
 
     .images-section {
@@ -389,6 +423,75 @@
       gap: 0.75rem;
       overflow-y: auto;
       flex: 1;
+    }
+
+    .add-image-section {
+      background: var(--bg-primary);
+      border: 1px solid var(--border-light);
+      padding: 1.5rem;
+      box-shadow: var(--shadow-sm);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .add-image-section h3 {
+      color: var(--text-primary);
+      margin: 0 0 1rem 0;
+      font-size: 14px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .add-image-container {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .image-output {
+      background: var(--bg-tertiary);
+      padding: 0.75rem;
+      color: var(--text-secondary);
+      font-family: 'SF Mono', Monaco, 'Cascadia Code', 'Roboto Mono', Consolas, 'Courier New', monospace;
+      white-space: pre-wrap;
+      word-break: break-all;
+      border: 1px solid var(--border-medium);
+      border-radius: var(--border-radius);
+      font-size: 12px;
+      min-height: 60px;
+      max-height: 200px;
+      overflow-y: auto;
+      line-height: 1.4;
+    }
+
+    .output-controls {
+      display: flex;
+      gap: 0.5rem;
+    }
+
+    .btn-small {
+      padding: 0.375rem 0.75rem;
+      font-size: 12px;
+      box-shadow: 
+        0 2px 4px rgba(0, 0, 0, 0.12),
+        inset 0 1px 0 rgba(255, 255, 255, 0.25),
+        inset 0 -1px 0 rgba(0, 0, 0, 0.08);
+    }
+
+    .btn-small:hover {
+      box-shadow: 
+        0 4px 8px rgba(0, 0, 0, 0.16),
+        inset 0 1px 0 rgba(255, 255, 255, 0.3),
+        inset 0 -1px 0 rgba(0, 0, 0, 0.1);
+    }
+
+    .btn-small:active {
+      box-shadow: 
+        0 1px 2px rgba(0, 0, 0, 0.16),
+        inset 0 1px 0 rgba(255, 255, 255, 0.15),
+        inset 0 -1px 0 rgba(0, 0, 0, 0.15);
     }
 
     .image-card {
@@ -453,22 +556,47 @@
     }
 
     .file-upload-btn {
-      background: var(--accent-yellow);
+      background: linear-gradient(145deg, var(--accent-yellow), var(--dark-yellow));
       color: var(--text-dark);
-      border: none;
+      border: 1px solid var(--dark-yellow);
+      border-top-color: #ffdd44;
+      border-left-color: #ffdd44;
+      border-right-color: #cc9900;
+      border-bottom-color: #cc9900;
       padding: 0.375rem 0.75rem;
       border-radius: var(--border-radius);
       cursor: pointer;
-      transition: all 0.2s ease;
+      transition: all 0.15s ease;
       font-size: 12px;
       font-weight: 500;
-      align-self: flex-start;
+      width: 100%;
+      align-self: stretch;
+      box-shadow: 
+        0 2px 4px rgba(0, 0, 0, 0.12),
+        inset 0 1px 0 rgba(255, 255, 255, 0.25),
+        inset 0 -1px 0 rgba(0, 0, 0, 0.08);
+      text-shadow: 0 1px 0 rgba(255, 255, 255, 0.3);
     }
 
     .file-upload-btn:hover {
-      background: var(--dark-yellow);
+      background: linear-gradient(145deg, #ffdd44, var(--accent-yellow));
       transform: translateY(-1px);
-      box-shadow: var(--shadow-sm);
+      box-shadow: 
+        0 4px 8px rgba(0, 0, 0, 0.16),
+        inset 0 1px 0 rgba(255, 255, 255, 0.3),
+        inset 0 -1px 0 rgba(0, 0, 0, 0.1);
+    }
+
+    .file-upload-btn:active {
+      transform: translateY(0);
+      box-shadow: 
+        0 1px 2px rgba(0, 0, 0, 0.16),
+        inset 0 1px 0 rgba(255, 255, 255, 0.15),
+        inset 0 -1px 0 rgba(0, 0, 0, 0.15);
+      border-top-color: #cc9900;
+      border-left-color: #cc9900;
+      border-right-color: #ffdd44;
+      border-bottom-color: #ffdd44;
     }
 
     .code-panel {
@@ -757,7 +885,7 @@
         gap: 0.5rem;
       }
 
-      .upload-section, .images-section {
+      .upload-section, .images-section, .add-image-section {
         padding: 1rem;
       }
 
@@ -829,6 +957,19 @@
           <h3 data-translate="templateImages">🖼️ Detected Images</h3>
           <div id="images" class="images"></div>
         </section>
+
+        <section class="add-image-section">
+          <h3 data-translate="addSignature">➕ Add Signature or Image</h3>
+          <div class="add-image-container">
+            <button class="btn" id="new-image-btn" data-translate="selectNewImage">📁 Choose Image</button>
+            <input type="file" id="new-image-upload" accept="image/*" class="hidden-file-input" />
+            <div id="new-image-output" class="image-output"></div>
+            <div class="output-controls hidden" id="output-controls">
+              <button class="btn btn-small" onclick="copyImageCode()" data-translate="copyToClipboard">📋 Copy to Clipboard</button>
+              <button class="btn btn-small" onclick="clearImageOutput()" data-translate="clearOutput">🧹 Clear</button>
+            </div>
+          </div>
+        </section>
       </div>
 
       <div class="right-panel">
@@ -868,9 +1009,9 @@
       en: {
         title: "XSLT Template Editor",
         subtitle: "Invoice Template Editor",
-        openTemplate: "📁 XSLT File (First):",
+        openTemplate: "📁 XSLT File (First Step):",
         selectFile: "📁 Choose File",
-        xmlFile: "📄 XML File (Second):",
+        xmlFile: "📄 XML File (Second Step):",
         selectXmlFile: "📄 Choose XML File",
         downloadBtn: "💾 Download Modified XSLT",
         templateImages: "🖼️ Detected Images",
@@ -881,14 +1022,20 @@
         replaceImage: "🖼️ Replace",
         noImagesFound: "No images found in this template",
         previewError: "Preview error:",
-        fileSizeError: "File size must be 64KB or less. Please choose a smaller image."
+        fileSizeError: "File size must be 64KB or less. Please choose a smaller image.",
+        addSignature: "➕ Add Signature or Image",
+        selectNewImage: "📁 Choose Image",
+        copyToClipboard: "📋 Copy to Clipboard",
+        clearOutput: "🧹 Clear",
+        copiedToClipboard: "Copied to clipboard!",
+        imageSizeError: "⚠️ Image exceeds 64KB or is invalid."
       },
       tr: {
         title: "XSLT Şablon Editörü",
         subtitle: "Fatura Şablonu Editörü",
-        openTemplate: "📁 XSLT Dosyası (İlk):",
+        openTemplate: "📁 XSLT Dosyası (İlk Aşama):",
         selectFile: "📁 Dosya Seç",
-        xmlFile: "📄 XML Dosyası (İkinci):",
+        xmlFile: "📄 XML Dosyası (İkinci Aşama):",
         selectXmlFile: "📄 XML Dosyası Seç",
         downloadBtn: "💾 Değiştirilmiş XSLT'yi İndir",
         templateImages: "🖼️ Tespit Edilen Görseller",
@@ -899,7 +1046,13 @@
         replaceImage: "🖼️ Değiştir",
         noImagesFound: "Bu şablonda görsel bulunamadı",
         previewError: "Önizleme hatası:",
-        fileSizeError: "Dosya boyutu 64KB veya daha küçük olmalıdır. Lütfen daha küçük bir resim seçin."
+        fileSizeError: "Dosya boyutu 64KB veya daha küçük olmalıdır. Lütfen daha küçük bir resim seçin.",
+        addSignature: "➕ İmza veya Görsel Ekle",
+        selectNewImage: "📁 Görsel Seç",
+        copyToClipboard: "📋 Panoya Kopyala",
+        clearOutput: "🧹 Temizle",
+        copiedToClipboard: "Panoya kopyalandı!",
+        imageSizeError: "⚠️ Görsel 64KB'ı aşıyor veya geçersiz."
       }
     };
 
@@ -928,6 +1081,12 @@
     const xmlUploadBtn = document.getElementById('xml-upload-btn');
     const xmlUpload = document.getElementById('xml-upload');
     const downloadBtn = document.getElementById('download-btn');
+    
+    // Add image elements
+    const newImageBtn = document.getElementById('new-image-btn');
+    const newImageUpload = document.getElementById('new-image-upload');
+    const newImageOutput = document.getElementById('new-image-output');
+    const outputControls = document.getElementById('output-controls');
     
     // Source code elements
     const sourceCode = document.getElementById('source-code');
@@ -1103,6 +1262,41 @@
       a.download = currentTemplate || 'modified.xslt';
       a.click();
       URL.revokeObjectURL(url);
+    });
+
+    // Add image upload event listeners
+    newImageBtn.addEventListener('click', () => {
+      newImageUpload.click();
+    });
+
+    newImageUpload.addEventListener('change', (e) => {
+      const file = e.target.files[0];
+      const t = translations[currentLanguage];
+      
+      if (!file) return;
+      
+      // Check file size (64KB = 64 * 1024 bytes)
+      const maxSize = 64 * 1024;
+      if (file.size > maxSize) {
+        alert(t.imageSizeError || '⚠️ Image exceeds 64KB or is invalid.');
+        e.target.value = ''; // Clear the input
+        return;
+      }
+      
+      const reader = new FileReader();
+      reader.onload = () => {
+        const dataUrl = reader.result;
+        const htmlCode = `<img src="${dataUrl}" alt="signature" />`;
+        newImageOutput.textContent = htmlCode;
+        outputControls.classList.remove('hidden');
+      };
+      
+      reader.onerror = () => {
+        alert(t.imageSizeError || '⚠️ Image exceeds 64KB or is invalid.');
+        e.target.value = ''; // Clear the input
+      };
+      
+      reader.readAsDataURL(file);
     });
 
     // Add event listeners for source code editing with debouncing
@@ -1444,6 +1638,36 @@
       document.body.style.userSelect = '';
       resizer.classList.remove('resizing');
       resizeOverlay.classList.remove('active');
+    }
+
+    // Functions for BASE64 conversion feature
+    function copyImageCode() {
+      const t = translations[currentLanguage];
+      const code = newImageOutput.textContent;
+      if (code.trim()) {
+        navigator.clipboard.writeText(code).then(() => {
+          alert(t.copiedToClipboard || 'Copied to clipboard!');
+        }).catch(err => {
+          console.error('Failed to copy to clipboard:', err);
+          // Fallback for older browsers
+          const textArea = document.createElement('textarea');
+          textArea.value = code;
+          document.body.appendChild(textArea);
+          textArea.select();
+          try {
+            document.execCommand('copy');
+            alert(t.copiedToClipboard || 'Copied to clipboard!');
+          } catch (fallbackErr) {
+            console.error('Fallback copy failed:', fallbackErr);
+          }
+          document.body.removeChild(textArea);
+        });
+      }
+    }
+
+    function clearImageOutput() {
+      newImageOutput.textContent = '';
+      outputControls.classList.add('hidden');
     }
 
     // Language selector event listeners
