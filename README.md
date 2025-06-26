@@ -1,3 +1,120 @@
+# XSLT Görsel Düzenleyici
+
+Türk e-fatura ve e-arşiv XSLT şablonlarındaki gömülü resimleri düzenlemek için profesyonel web tabanlı araç.
+
+## Özellikler
+
+- **🖼️ Resim Yönetimi**: XSLT şablonlarından Base64 kodlu resimleri çıkarın, önizleyin ve değiştirin
+- **📐 Boyut Kontrolü**: Gerçek zamanlı önizleme ile resim genişlik ve yüksekliklerini ayarlayın
+- **👁️ Canlı Önizleme**: Örnek fatura verisi ile şablonda yaptığınız değişiklikleri anında görün
+- **🌐 Çift Dilli Destek**: Tam İngilizce ve Türkçe dil desteği
+- **💾 Kolay Dışa Aktarım**: Düzenlenmiş XSLT şablonlarını indirin
+- **🔒 İstemci Tarafı İşleme**: Tüm işlemler güvenlik amacıyla tarayıcınızda yerel olarak gerçekleştirilir
+
+## Sistem Gereksinimleri
+
+- Modern web tarayıcısı (Chrome, Firefox, Safari, Edge)
+- İlk yüklemeden sonra internet bağlantısı gerekmez
+- Sunucu kurulumu gerekmez
+
+## Kurulum & Kullanım
+
+### Seçenek 1: Doğrudan Kullanım
+1. `index.html` dosyasını indirin
+2. Dosyaya çift tıklayarak tarayıcınızda açın
+3. XSLT şablonlarınızı düzenlemeye başlayın!
+
+### Seçenek 2: Yerel Web Sunucusu (Gelişmiş)
+1. Uygulama dosyalarını çıkarın
+2. Dizini herhangi bir web sunucusu ile yayınlayın:
+   - **Python**: `python -m http.server 8000`
+   - **Node.js**: `npx serve .`
+   - **PHP**: `php -S localhost:8000`
+3. Tarayıcınızda `http://localhost:8000` adresini açın
+
+## Nasıl Kullanılır
+
+1. **XSLT Dosyası Seç**: "📁 XSLT Dosyası Seç" düğmesine tıklayarak şablonunuzu yükleyin
+2. **Resimleri Düzenle**:
+   - Çıkarılan resimleri mevcut boyutlarıyla görüntüleyin
+   - "🖼️ Resmi Değiştir" düğmesine tıklayarak yeni resimler yükleyin (maks. 64 KB)
+   - Genişlik ve yükseklik alanlarını kullanarak boyutları ayarlayın
+3. **Önizleme**: Canlı önizleme panelinde değişikliklerinizi anında görüntüleyin
+4. **İndir**: "💾 Değiştirilmiş XSLT'yi İndir" düğmesine tıklayın
+
+## Dosya Boyutu Sınırları
+
+- **Resimler**: Her resim için maksimum 64 KB
+- **XSLT Şablonları**: Özel bir sınır yok (tarayıcı belleği ile sınırlı)
+
+## Desteklenen Görsel Formatları
+
+- PNG, JPG, JPEG, GIF, BMP, WebP
+- Resimler otomatik olarak Base64 formatına dönüştürülür
+
+## Tarayıcı Uyumluluğu
+
+- ✅ Chrome 60+
+- ✅ Firefox 55+
+- ✅ Safari 11+
+- ✅ Edge 79+
+
+## Güvenlik & Gizlilik
+
+- **%100 İstemci Tarafı**: Hiçbir veri sunucuya gönderilmez
+- **Yerel İşleme**: Tüm işlemler tarayıcınızda gerçekleşir
+- **Veri Saklama Yok**: Uygulama dosyaları kaydedilmez veya önbelleğe alınmaz
+
+## Teknik Detaylar
+
+- **Ön Yüz**: Saf HTML5, CSS3, JavaScript (ES6+)
+- **XSLT İşleme**: Tarayıcı yerleşik XSLTProcessor API
+- **Dosya İşleme**: Yerel dosya işlemleri için FileReader API
+- **Bağımlılık Yok**: Tamamen tek dosyalık bir uygulama
+
+## Sorun Giderme
+
+### Önizleme Çalışmıyor
+- XSLT şablonunuzun geçerli XML olduğundan emin olun
+- Şablonun doğru XSLT dönüşüm kurallarını içerdiğini kontrol edin
+
+### Resimler Görüntülenmiyor
+- Resimlerin Base64 veri URL'si olarak gömülü olduğundan emin olun
+- Resim etiketlerinin standart HTML formatında olduğundan emin olun
+
+### Dosya Yükleme Sorunları
+- Resim dosyalarının 64 KB altında olduğundan emin olun
+- Farklı resim formatlarını deneyin (PNG önerilir)
+
+## Geliştirme
+
+Bu uygulama saf JavaScript kullanılarak tek dosyalık yapıda geliştirilmiştir. Değişiklik yapmak için:
+
+1. `index.html` dosyasını düzenleyin
+2. Birden fazla tarayıcıda test edin
+3. Örnek şablonlarla XSLT işlemini doğrulayın
+
+## Lisans
+
+© 2025 1C International. Tüm hakları saklıdır.  
+Oluşturan: Uğur Emir Taşkın ve Sefa Şenlik.
+
+## Destek
+
+Teknik destek veya özellik talepleri için senliksefa@gmail.com adresine ulaşabilirsiniz.
+
+---
+
+**Sürüm**: 1.2  
+**Son Güncelleme**: Haziran 2025  
+**Uyumluluk**: Türk e-fatura/e-arşiv sistemleri  
+
+---
+
+> **English version below / İngilizce sürüm aşağıdadır**
+
+---
+
 # XSLT Image Editor
 
 A professional web-based tool for editing embedded images in Turkish e-invoice and e-archive XSLT templates.
@@ -24,7 +141,7 @@ A professional web-based tool for editing embedded images in Turkish e-invoice a
 2. Double-click to open in your web browser
 3. Start editing your XSLT templates!
 
-### Option 2: Local Web Server (Recommended)
+### Option 2: Local Web Server (Advanced)
 1. Extract the application files
 2. Serve the directory using any web server:
    - **Python**: `python -m http.server 8000`

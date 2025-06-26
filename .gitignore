@@ -1,1 +1,2 @@
-dist
+# Ignore distribution directory
+dist/
