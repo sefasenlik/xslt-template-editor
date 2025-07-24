@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>XSLT Template Editor - 1C International</title>
+    <title>XSLT Template Editor - 1C International (v1.3)</title>
     <link rel="icon" type="image/png" href="logo.png" />
     <link rel="shortcut icon" type="image/png" href="logo.png" />
   <style>
@@ -699,6 +699,7 @@
       white-space: pre;
       word-wrap: break-word;
       z-index: 1;
+      tab-size: 2;
     }
 
     .line-numbers {
@@ -745,6 +746,7 @@
       word-wrap: break-word;
       z-index: 2;
       caret-color: var(--text-primary);
+      tab-size: 2;
     }
 
     .source-code::selection {
@@ -934,7 +936,7 @@
         <div class="info-icon" id="info-icon" title="">
           <span>ℹ</span>
           <div class="tooltip" id="tooltip">
-            <p data-translate="copyright">&copy; 2025 1C International. All rights reserved.</p>
+            <p data-translate="copyright">&copy; 2025 1C International. MIT License.</p>
           </div>
         </div>
       </div>
@@ -966,7 +968,7 @@
         </section>
 
         <section class="add-image-section">
-          <h3 data-translate="addSignature">➕ Add Signature or Image</h3>
+          <h3 data-translate="addSignature">🔁 BASE64 Converter</h3>
           <div class="add-image-container">
             <button class="btn primary" id="new-image-btn" data-translate="selectNewImage">📁 Choose Image</button>
             <input type="file" id="new-image-upload" accept="image/*" class="hidden-file-input" />
@@ -1016,26 +1018,26 @@
       en: {
         title: "XSLT Template Editor",
         subtitle: "Invoice Template Editor",
-        openTemplate: "📁 XSLT File (First Step):",
+        openTemplate: "📁 XSLT File (Template):",
         selectFile: "📁 Choose File",
-        xmlFile: "📄 XML File (Second Step):",
+        xmlFile: "📄 XML File (Document Data):",
         selectXmlFile: "📄 Choose XML File",
         downloadBtn: "💾 Download Modified XSLT",
         templateImages: "🖼️ Detected Images",
         livePreview: "👁️ Live Preview",
         sourceCode: "🔧 XSLT Source Code",
-        copyright: "© 2025 1C International. All rights reserved.",
+        copyright: "© 2025 1C International. MIT License.",
         description: "XSLT editing solution for e-invoice templates",
         replaceImage: "🖼️ Replace",
         noImagesFound: "No images found in this template",
         previewError: "Preview error:",
         fileSizeError: "File size must be 64KB or less. Please choose a smaller image.",
-        addSignature: "➕ Add Signature or Image",
+        addSignature: "🔁 BASE64 Converter",
         selectNewImage: "📁 Choose Image",
         copyToClipboard: "📋 Copy to Clipboard",
         clearOutput: "🧹 Clear",
         copiedToClipboard: "Copied to clipboard!",
-        imageSizeError: "⚠️ Image exceeds 64KB or is invalid.",
+        imageProcessError: "⚠️ Failed to process image. Please try a different image.",
         togglePanel: "⚙️ Toggle Left Panel",
         togglePanelHidden: "⚙️ Show Left Panel",
         togglePanelVisible: "⚙️ Hide Left Panel"
@@ -1043,26 +1045,26 @@
       tr: {
         title: "XSLT Şablon Editörü",
         subtitle: "Fatura Şablonu Editörü",
-        openTemplate: "📁 XSLT Dosyası (İlk Aşama):",
+        openTemplate: "📁 XSLT Dosyası (Şablon):",
         selectFile: "📁 Dosya Seç",
-        xmlFile: "📄 XML Dosyası (İkinci Aşama):",
+        xmlFile: "📄 XML Dosyası (Belge Verileri):",
         selectXmlFile: "📄 XML Dosyası Seç",
         downloadBtn: "💾 Değiştirilmiş XSLT'yi İndir",
         templateImages: "🖼️ Tespit Edilen Görseller",
         livePreview: "👁️ Canlı Önizleme",
         sourceCode: "🔧 XSLT Kaynak Kodu",
-        copyright: "© 2025 1C International. Tüm hakları saklıdır.",
+        copyright: "© 2025 1C International. MIT Lisansı.",
         description: "E-fatura şablonları için XSLT düzenleme çözümü",
         replaceImage: "🖼️ Değiştir",
         noImagesFound: "Bu şablonda görsel bulunamadı",
         previewError: "Önizleme hatası:",
         fileSizeError: "Dosya boyutu 64KB veya daha küçük olmalıdır. Lütfen daha küçük bir resim seçin.",
-        addSignature: "➕ İmza veya Görsel Ekle",
+        addSignature: "🔁 BASE64 Dönüştürücü",
         selectNewImage: "📁 Görsel Seç",
         copyToClipboard: "📋 Panoya Kopyala",
         clearOutput: "🧹 Temizle",
         copiedToClipboard: "Panoya kopyalandı!",
-        imageSizeError: "⚠️ Görsel 64KB'ı aşıyor veya geçersiz.",
+        imageProcessError: "⚠️ Görsel işlenemedi. Lütfen farklı bir görsel deneyin.",
         togglePanel: "⚙️ Sol Paneli Aç/Kapat",
         togglePanelHidden: "⚙️ Sol Paneli Göster",
         togglePanelVisible: "⚙️ Sol Paneli Gizle"
@@ -1127,40 +1129,96 @@
 
 
 
+    // Function to compress image to ensure base64 size is under 64KB
+    function compressImageToBase64(file, maxSizeKB = 64) {
+      return new Promise((resolve, reject) => {
+        const canvas = document.createElement('canvas');
+        const ctx = canvas.getContext('2d');
+        const img = new Image();
+        
+        img.onload = () => {
+          // Start with original dimensions
+          let width = img.width;
+          let height = img.height;
+          let quality = 0.9;
+          
+          // Function to try compression with current settings
+          const tryCompression = () => {
+            canvas.width = width;
+            canvas.height = height;
+            ctx.clearRect(0, 0, width, height);
+            ctx.drawImage(img, 0, 0, width, height);
+            
+            const dataUrl = canvas.toDataURL('image/jpeg', quality);
+            const base64 = dataUrl.split(',')[1];
+            const sizeInBytes = Math.ceil((base64.length * 3) / 4); // Approximate base64 size
+            const sizeInKB = sizeInBytes / 1024;
+            
+            if (sizeInKB <= maxSizeKB) {
+              resolve(base64);
+            } else {
+              // Try reducing quality first
+              if (quality > 0.1) {
+                quality -= 0.1;
+                tryCompression();
+              } else {
+                // If quality is already low, start reducing dimensions
+                quality = 0.9; // Reset quality
+                if (width > 100 && height > 100) {
+                  width = Math.floor(width * 0.9);
+                  height = Math.floor(height * 0.9);
+                  tryCompression();
+                } else {
+                  // If dimensions are already small, just use the best we can get
+                  resolve(base64);
+                }
+              }
+            }
+          };
+          
+          tryCompression();
+        };
+        
+        img.onerror = () => {
+          reject(new Error('Failed to load image'));
+        };
+        
+        const reader = new FileReader();
+        reader.onload = () => {
+          img.src = reader.result;
+        };
+        reader.readAsDataURL(file);
+      });
+    }
+
     async function onImageChange(e) {
       const file = e.target.files[0];
       const id = e.target.dataset.id;
       if (!file) return;
       
-      // Check file size (64KB = 64 * 1024 bytes)
-      const maxSize = 64 * 1024;
-      if (file.size > maxSize) {
-        const t = translations[currentLanguage];
-        alert(t.fileSizeError || 'File size must be 64KB or less. Please choose a smaller image.');
-        e.target.value = ''; // Clear the input
-        return;
-      }
+      const t = translations[currentLanguage];
       
-      const reader = new FileReader();
-      reader.onload = () => {
-        const base64 = reader.result.split(',')[1];
+      try {
+        const base64 = await compressImageToBase64(file, 64);
         currentXsltText = replaceImageLocal(currentXsltText, parseInt(id, 10), base64);
         sourceCode.value = currentXsltText; // Sync with textarea
         updateLineNumbers();
         refreshLocalImages();
         preview();
-      };
-      reader.readAsDataURL(file);
+      } catch (error) {
+        alert(t.imageProcessError || '⚠️ Failed to process image. Please try a different image.');
+        e.target.value = ''; // Clear the input
+      }
     }
 
     function extractImagesLocal(xsltText) {
-      const tagRegex = /<img[^>]+src="data:image\/[^;]+;base64,[^\"]+"[^>]*>/gi;
+      const tagRegex = /<img[^>]+src\s*=\s*"data:image\/[^;]+;base64,[^\"]+"[^>]*>/gi;
       const imgs = [];
       let tagMatch;
       let idx = 0;
       while ((tagMatch = tagRegex.exec(xsltText)) !== null) {
         const tag = tagMatch[0];
-        const srcMatch = tag.match(/src="data:image\/[^;]+;base64,([^\"]+)"/i);
+        const srcMatch = tag.match(/src\s*=\s*"data:image\/[^;]+;base64,([^\"]+)"/i);
         
         // Try to extract width and height from both HTML attributes and CSS styles
         let width = '', height = '';
@@ -1203,7 +1261,7 @@
 
     function replaceImageLocal(xsltText, imageId, newBase64) {
       let currentIndex = -1;
-      return xsltText.replace(/<img[^>]+src="data:image\/[^;]+;base64,[^\"]+"[^>]*>/gi, (imgTag) => {
+      return xsltText.replace(/<img[^>]+src\s*=\s*"data:image\/[^;]+;base64,[^\"]+"[^>]*>/gi, (imgTag) => {
         currentIndex += 1;
         if (currentIndex === imageId) {
           return imgTag.replace(/base64,[^\"]+"/i, `base64,${newBase64}"`);
@@ -1214,7 +1272,7 @@
 
     function replaceDimensionLocal(xsltText, imageId, attr, newVal) {
       let currentIndex = -1;
-      return xsltText.replace(/<img[^>]+src="data:image\/[^;]+;base64,[^\"]+"[^>]*>/gi, (imgTag) => {
+      return xsltText.replace(/<img[^>]+src\s*=\s*"data:image\/[^;]+;base64,[^\"]+"[^>]*>/gi, (imgTag) => {
         currentIndex += 1;
         if (currentIndex === imageId) {
           // Check if attribute exists as HTML attribute
@@ -1290,34 +1348,22 @@
       newImageUpload.click();
     });
 
-    newImageUpload.addEventListener('change', (e) => {
+    newImageUpload.addEventListener('change', async (e) => {
       const file = e.target.files[0];
       const t = translations[currentLanguage];
       
       if (!file) return;
       
-      // Check file size (64KB = 64 * 1024 bytes)
-      const maxSize = 64 * 1024;
-      if (file.size > maxSize) {
-        alert(t.imageSizeError || '⚠️ Image exceeds 64KB or is invalid.');
-        e.target.value = ''; // Clear the input
-        return;
-      }
-      
-      const reader = new FileReader();
-      reader.onload = () => {
-        const dataUrl = reader.result;
+      try {
+        const base64 = await compressImageToBase64(file, 64);
+        const dataUrl = `data:image/jpeg;base64,${base64}`;
         const htmlCode = `<img src="${dataUrl}" alt="signature" />`;
         newImageOutput.textContent = htmlCode;
         outputControls.classList.remove('hidden');
-      };
-      
-      reader.onerror = () => {
-        alert(t.imageSizeError || '⚠️ Image exceeds 64KB or is invalid.');
+      } catch (error) {
+        alert(t.imageProcessError || '⚠️ Failed to process image. Please try a different image.');
         e.target.value = ''; // Clear the input
-      };
-      
-      reader.readAsDataURL(file);
+      }
     });
 
     // Add event listeners for source code editing with debouncing
@@ -1333,7 +1379,7 @@
         const imgs = extractImagesLocal(currentXsltText);
         renderImages(imgs);
         preview();
-      }, 300); // 300ms delay
+      }, 500); // 500ms delay
     });
 
     sourceCode.addEventListener('scroll', () => {
@@ -1410,9 +1456,9 @@
     function syntaxHighlightText(text) {
       function highlightAttributes(attrText) {
         if (!attrText) return '';
-        return attrText
-          .replace(/([\w:-]+)/g, '<span class="xml-attr-name">$1</span>')
-          .replace(/(=)("[^"]*"|'[^']*')/g, '$1<span class="xml-attr-value">$2</span>');
+        // Only highlight attributes that are properly formatted with quotes
+        return attrText.replace(/([\w:-]+)(\s*=\s*)(["'][^"']*["'])/g, 
+          '<span class="xml-attr-name">$1</span>$2<span class="xml-attr-value">$3</span>');
       }
 
       // Escape HTML entities first
@@ -1429,7 +1475,7 @@
         .replace(/(&lt;!\[CDATA\[[\s\S]*?\]\]&gt;)/g, '<span class="xml-cdata">$1</span>')
         // Processing Instructions
         .replace(/(&lt;\?[\s\S]*?\?&gt;)/g, '<span class="xml-pi">$1</span>')
-        // XML tags and their attributes
+        // XML tags and their attributes - more precise matching
         .replace(/(&lt;\/?)([\w:-]+)((?:\s+[\w:-]+(?:=(?:"[^"]*"|'[^']*'))?)*)(\s*\/&gt;|\s*&gt;)/g,
           (match, open, tagName, attrs, close) => {
             return `<span class="xml-tag">${open}${tagName}</span>${highlightAttributes(attrs)}<span class="xml-tag">${close}</span>`;
@@ -1446,6 +1492,9 @@
         return;
       }
       
+      // Set the textarea value first
+      sourceCode.value = currentXsltText;
+      
       const lines = currentXsltText.split('\n');
       
       // Create line numbers with proper formatting
@@ -1455,10 +1504,11 @@
       }).join('');
       
       lineNumbers.innerHTML = lineNumbersHtml;
-      sourceCode.value = currentXsltText;
       
-      // Update syntax highlighting
-      updateSyntaxHighlighting();
+      // Update syntax highlighting after a short delay to ensure textarea is updated
+      setTimeout(() => {
+        updateSyntaxHighlighting();
+      }, 10);
     }
 
     // Update syntax highlighting overlay
@@ -1466,17 +1516,6 @@
       const text = sourceCode.value;
       const highlightedText = syntaxHighlightText(text);
       syntaxHighlight.innerHTML = highlightedText;
-      
-      // Ensure both elements have exactly the same text content for proper selection alignment
-      // This is crucial for text selection to work correctly
-      const tempDiv = document.createElement('div');
-      tempDiv.innerHTML = highlightedText;
-      const plainText = tempDiv.textContent || tempDiv.innerText || '';
-      
-      // Verify the text matches (for debugging)
-      if (plainText !== text) {
-        console.warn('Text content mismatch between textarea and highlight overlay');
-      }
     }
 
     // Highlight a specific line in source code
@@ -1511,6 +1550,36 @@
         }
       }
       return 1;
+    }
+
+    // Function to find line number of a specific image by index
+    function findImageLineNumber(imageIndex) {
+      if (!currentXsltText) return 1;
+      
+      const lines = currentXsltText.split('\n');
+      let currentImageIndex = -1;
+      
+      for (let i = 0; i < lines.length; i++) {
+        const line = lines[i];
+        // Check if this line contains an image tag
+        if (line.includes('<img') && line.includes('src=') && line.includes('data:image')) {
+          currentImageIndex++;
+          if (currentImageIndex === imageIndex) {
+            return i + 1;
+          }
+        }
+      }
+      return 1;
+    }
+
+    // Function to add image indices to HTML for navigation
+    function addImageIndices(html) {
+      let imageIndex = 0;
+      return html.replace(/<img([^>]*)>/gi, (match, attributes) => {
+        const dataImageIndex = ` data-image-index="${imageIndex}"`;
+        imageIndex++;
+        return `<img${attributes}${dataImageIndex}>`;
+      });
     }
 
     // Enhanced preview function to add double-click navigation
@@ -1553,6 +1622,9 @@
         const resultDocument = xsltProcessor.transformToDocument(xmlDoc);
 
         const html = new XMLSerializer().serializeToString(resultDocument);
+        
+        // Add image indices to the HTML for navigation
+        const processedHtml = addImageIndices(html);
 
         // Inject helpful libraries and navigation script
         const navigationScript = `
@@ -1561,6 +1633,23 @@
             // Try to find a unique identifier for the clicked element
             let element = e.target;
             let identifier = '';
+            let isImage = false;
+            let imageIndex = -1;
+            
+            // Special handling for images
+            if (element.tagName === 'IMG') {
+              isImage = true;
+              // Try to find the image index from data attributes or src
+              if (element.dataset.imageIndex !== undefined) {
+                imageIndex = parseInt(element.dataset.imageIndex);
+              } else if (element.src && element.src.includes('data:image')) {
+                // Extract image index from src if it contains a unique identifier
+                const srcMatch = element.src.match(/imageIndex=(\d+)/);
+                if (srcMatch) {
+                  imageIndex = parseInt(srcMatch[1]);
+                }
+              }
+            }
             
             // Try to find text content or unique attributes
             if (element.textContent && element.textContent.trim()) {
@@ -1574,11 +1663,13 @@
             }
             
             // Send message to parent window
-            if (identifier) {
+            if (identifier || isImage) {
               window.parent.postMessage({
                 type: 'navigate-to-source',
                 identifier: identifier,
-                tagName: element.tagName
+                tagName: element.tagName,
+                isImage: isImage,
+                imageIndex: imageIndex
               }, '*');
             }
           });
@@ -1586,7 +1677,7 @@
         
         const extras = `\n<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"><\/script>\n<script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.5/dist/JsBarcode.all.min.js"><\/script>\n${navigationScript}`;
 
-        previewFrame.srcdoc = extras + html;
+        previewFrame.srcdoc = extras + processedHtml;
         previewFrame.classList.remove('hidden');
       } catch (err) {
         console.error(err);
@@ -1601,7 +1692,16 @@
       if (event.data && event.data.type === 'navigate-to-source') {
         // Find and highlight the relevant line in source code
         setTimeout(() => {
-          const lineNumber = findElementLineNumber(event.data.identifier);
+          let lineNumber = 1;
+          
+          if (event.data.isImage && event.data.imageIndex >= 0) {
+            // Handle image navigation specifically
+            lineNumber = findImageLineNumber(event.data.imageIndex);
+          } else {
+            // Handle regular text navigation
+            lineNumber = findElementLineNumber(event.data.identifier);
+          }
+          
           highlightSourceLine(lineNumber);
         }, 100);
       }
